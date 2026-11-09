@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Almoxarifado EJC BDI</title>
+  <meta name="description" content="Controle de almoxarifado do EJC BDI">
+  <meta name="theme-color" content="#1f5fbf" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111318" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Almoxarifado">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="sprite" width="0" height="0" aria-hidden="true">
+    <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-menos" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-busca" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2" fill="none"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="i-fechar" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-lapis" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/></symbol>
+  </svg>
+
+  <header class="topo">
+    <div class="topo-linha">
+      <div class="marca">
+        <h1>Almoxarifado</h1>
+        <span class="sub">EJC BDI</span>
+      </div>
+      <span id="ao-vivo" class="ao-vivo" data-estado="conectando" title="Conexão ao vivo">
+        <span class="ponto" aria-hidden="true"></span><span class="ao-vivo-txt">Conectando…</span>
+      </span>
+      <a id="btn-csv" class="btn-icone" href="/api/itens.csv" download aria-label="Exportar CSV" title="Exportar CSV">
+        <svg aria-hidden="true"><use href="#i-baixar"/></svg>
+      </a>
+    </div>
+    <label class="busca">
+      <svg aria-hidden="true"><use href="#i-busca"/></svg>
+      <input id="busca" type="search" placeholder="Buscar item" autocomplete="off" enterkeyhint="search" aria-label="Buscar item">
+    </label>
+    <nav id="chips" class="chips" aria-label="Filtrar por categoria"></nav>
+  </header>
+
+  <main id="conteudo" class="conteudo" aria-live="polite">
+    <p id="resumo" class="resumo"></p>
+    <div id="estado" class="estado">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Carregando itens…</p>
+    </div>
+    <div id="lista" class="lista"></div>
+  </main>
+
+  <button id="btn-novo" class="fab" type="button">
+    <svg aria-hidden="true"><use href="#i-mais"/></svg><span>Novo item</span>
+  </button>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="dlg-item" class="folha" aria-labelledby="dlg-item-titulo">
+    <form id="form-item" method="dialog" novalidate>
+      <div class="folha-topo">
+        <h2 id="dlg-item-titulo">Novo item</h2>
+        <button type="button" class="btn-icone" data-fechar aria-label="Fechar"><svg aria-hidden="true"><use href="#i-fechar"/></svg></button>
+      </div>
+      <p id="form-aviso" class="aviso" hidden></p>
+      <label class="campo">
+        <span>Nome</span>
+        <input id="f-nome" name="nome" maxlength="100" required autocomplete="off" enterkeyhint="next">
+      </label>
+      <label class="campo">
+        <span>Categoria</span>
+        <input id="f-categoria" name="categoria" maxlength="50" required autocomplete="off" enterkeyhint="next" placeholder="Ex.: Limpeza">
+      </label>
+      <div id="sug-categorias" class="sugestoes" aria-label="Categorias existentes"></div>
+      <div class="campo">
+        <span id="rot-qtd">Quantidade</span>
+        <div class="stepper grande" role="group" aria-labelledby="rot-qtd">
+          <button type="button" class="btn-passo" data-passo="-1" aria-label="Diminuir"><svg aria-hidden="true"><use href="#i-menos"/></svg></button>
+          <input id="f-quantidade" name="quantidade" type="number" inputmode="numeric" pattern="[0-9]*" min="0" max="1000000" step="1" required aria-labelledby="rot-qtd">
+          <button type="button" class="btn-passo" data-passo="1" aria-label="Aumentar"><svg aria-hidden="true"><use href="#i-mais"/></svg></button>
+        </div>
+      </div>
+      <p id="form-erro" class="erro-campo" role="alert" hidden></p>
+      <div class="acoes">
+        <button type="submit" id="btn-salvar" class="btn primario">Salvar</button>
+        <button type="button" id="btn-excluir" class="btn perigo-texto" hidden>Excluir item</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-confirmar" class="folha pequena" aria-labelledby="dlg-conf-titulo">
+    <form method="dialog">
+      <h2 id="dlg-conf-titulo">Excluir item?</h2>
+      <p id="dlg-conf-texto" class="texto-suave"></p>
+      <div class="acoes lado">
+        <button value="cancelar" class="btn">Cancelar</button>
+        <button value="excluir" class="btn perigo">Excluir</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

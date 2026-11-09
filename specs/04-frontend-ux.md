@@ -3,11 +3,13 @@
 ## Telas
 | Tela | Rota | Mostra | Ações |
 |---|---|---|---|
-| Almoxarifado | `/` | Total de itens, busca, filtro de categoria, lista de itens (nome, categoria, quantidade) | Novo item, +/−, editar, excluir, exportar CSV |
+| Almoxarifado | `/` | Total de itens e unidades, busca, chips de categoria e "Em falta", lista de itens | Novo item, +/−, editar, excluir, exportar CSV |
 | Modal Item | (diálogo) | Formulário com nome, categoria (com sugestões das existentes) e quantidade | Salvar, cancelar |
 | Modal Confirmar exclusão | (diálogo) | "Excluir <nome>?" | Excluir, cancelar |
 
-- Lista em cards no celular e em tabela no desktop (mesmo HTML, CSS responsivo).
+- Lista em cards agrupados por categoria, numa coluna de até 720px (celular primeiro; no desktop a coluna fica centralizada).
+- Botões −/+ de 48px em cada card; tocar no nome abre a edição (com o botão Excluir dentro).
+- Botão "Novo item" fixo no canto inferior direito; formulários abrem como folha de baixo para cima no celular.
 - Item com quantidade 0 fica destacado ("Em falta").
 - Indicador discreto de conexão ao vivo (ponto verde "Ao vivo" / cinza "Reconectando…").
 - Busca ignora maiúsculas e acentos.
