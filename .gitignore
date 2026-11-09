@@ -1,0 +1,4 @@
+data/
+*.tar
+node_modules/
+.env

@@ -1,0 +1,9 @@
+data
+*.tar
+node_modules
+.git
+.env
+.claude
+specs
+docs
+test
