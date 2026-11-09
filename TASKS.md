@@ -12,10 +12,10 @@ Uma task = uma entrega = um commit. Ao concluir, mova para Concluídas com data 
 |---|---|---|---|
 | T-001 | Scaffold + hello world | 2026-11-09 | ba2fb01 |
 | T-002 | API CRUD + regras R1–R5 (9 testes) | 2026-11-09 | ba2fb01 |
-| T-003 | Tela principal mobile-first | 2026-11-09 | ver log |
-| T-004 | Atualização ao vivo (SSE) | 2026-11-09 | ver log |
-| T-005 | Exportar CSV | 2026-11-09 | ver log |
-| T-006 | Empacotamento CapRover + README | 2026-11-09 | ver log |
+| T-003 | Tela principal mobile-first | 2026-11-09 | f091d33 |
+| T-004 | Atualização ao vivo (SSE) | 2026-11-09 | f091d33 |
+| T-005 | Exportar CSV | 2026-11-09 | f091d33 |
+| T-006 | Empacotamento CapRover + README | 2026-11-09 | f091d33 |
 
 ## Backlog (ideias, sem compromisso)
 - Senha única de acesso (v2)
