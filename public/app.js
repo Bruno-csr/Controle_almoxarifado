@@ -184,7 +184,8 @@ function cardItem(item) {
       el('span', { class: 'item-nome', text: item.nome }), meta),
     el('div', { class: 'stepper', role: 'group', 'aria-label': `Quantidade de ${item.nome}` },
       el('button', { type: 'button', class: 'btn-passo', 'data-acao': 'menos', 'aria-label': `Tirar 1 de ${item.nome}`, disabled: qtd <= 0 }, icone('i-menos')),
-      el('span', { class: 'qtd' + (estado.pendente.has(item.id) ? ' pendente' : ''), 'aria-live': 'polite', text: fmt(qtd) }),
+      el('button', { type: 'button', class: 'qtd' + (estado.pendente.has(item.id) ? ' pendente' : ''), 'data-acao': 'digitar',
+        'aria-label': `${item.nome}: ${qtd}. Toque para digitar a quantidade`, text: fmt(qtd) }),
       el('button', { type: 'button', class: 'btn-passo', 'data-acao': 'mais', 'aria-label': `Adicionar 1 a ${item.nome}` }, icone('i-mais')))
   );
 }
@@ -298,7 +299,7 @@ function preencherForm(item) {
   renderSugestoes();
 }
 
-function abrirForm(item) {
+function abrirForm(item, focarQtd = false) {
   estado.editando = item ? { id: item.id, versao: item.versao } : null;
   $('#dlg-item-titulo').textContent = item ? 'Editar item' : 'Novo item';
   $('#btn-excluir').hidden = !item;
@@ -307,7 +308,10 @@ function abrirForm(item) {
   preencherForm(item);
   dlgItem.showModal();
   if (!item) fNome.focus();
-  else $('#btn-salvar').focus();
+  else if (focarQtd) {
+    fQtd.focus();
+    fQtd.select();
+  } else $('#btn-salvar').focus();
 }
 
 function lerForm() {
@@ -438,6 +442,11 @@ document.addEventListener('click', (ev) => {
     case 'mais': return ajustar(id, 1);
     case 'menos': return ajustar(id, -1);
     case 'editar': return abrirForm(estado.itens.get(id));
+    case 'digitar': {
+      // espera ajustes +/− pendentes para não editar com versão antiga
+      const item = estado.itens.get(id);
+      return (estado.fila.get(id) || Promise.resolve()).then(() => abrirForm(estado.itens.get(id) || item, true));
+    }
     case 'novo': return abrirForm(null);
     case 'tentar': return carregar();
     case 'limpar':

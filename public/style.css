@@ -193,13 +193,22 @@ svg { width: 22px; height: 22px; flex: none; }
 .btn-passo:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 .qtd {
   min-width: 52px;
+  min-height: 48px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--texto);
   text-align: center;
+  text-decoration: underline dotted color-mix(in srgb, var(--suave) 60%, transparent);
+  text-underline-offset: 5px;
   font-size: 1.25rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 .item.falta .qtd { color: var(--perigo); }
 .qtd.pendente { opacity: 0.6; }
+.qtd:hover { background: var(--primaria-suave); }
 
 /* ---------- Estados ---------- */
 .estado { text-align: center; padding: 48px 16px; color: var(--suave); }

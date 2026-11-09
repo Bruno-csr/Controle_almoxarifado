@@ -9,6 +9,7 @@
 
 - Lista em cards agrupados por categoria, numa coluna de até 720px (celular primeiro; no desktop a coluna fica centralizada).
 - Botões −/+ de 48px em cada card; tocar no nome abre a edição (com o botão Excluir dentro).
+- Tocar no número abre a edição já com o campo de quantidade selecionado (teclado numérico), para digitar o valor contado.
 - Botão "Novo item" fixo no canto inferior direito; formulários abrem como folha de baixo para cima no celular.
 - Item com quantidade 0 fica destacado ("Em falta").
 - Indicador discreto de conexão ao vivo (ponto verde "Ao vivo" / cinza "Reconectando…").
